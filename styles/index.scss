@@ -1,0 +1,504 @@
+/* Windows 98 variables */
+$win98-bg: #008080;
+$win98-window-bg: #c0c0c0;
+$win98-window-border: #ffffff;
+$win98-window-shadow: #808080;
+$win98-title-bar: #000080;
+$win98-title-text: #ffffff;
+$win98-text: #000000;
+$win98-button-face: #c0c0c0;
+$win98-button-highlight: #ffffff;
+$win98-button-shadow: #808080;
+$win98-button-dark-shadow: #404040;
+$win98-button-text: #000000;
+$win98-notepad-bg: #ffffff;
+
+/* Breakpoints */
+$mobile: 480px;
+$tablet: 768px;
+
+/* Reset and Base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'MS Sans Serif', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 12px;
+}
+
+body {
+    background-color: $win98-bg;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Desktop styles */
+.desktop {
+    flex-grow: 1;
+    position: relative;
+    padding: 10px;
+    user-select: none;
+    overflow: auto;
+    /* Allow scrolling on small screens */
+}
+
+/* Desktop Icon */
+.desktop-icon {
+    width: 75px;
+    height: 75px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    &:active {
+        .icon-img {
+            transform: scale(0.95);
+        }
+    }
+
+    @media (max-width: $mobile) {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+.icon-img {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 6px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    @media (max-width: $mobile) {
+        width: 24px;
+        height: 24px;
+        margin-bottom: 4px;
+    }
+}
+
+/* Notepad icon - создание через CSS */
+.notepad-icon {
+    background-color: $win98-window-bg;
+    position: relative;
+}
+
+.notepad-icon:before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 22px;
+    height: 22px;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.notepad-icon:after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 9px;
+    width: 14px;
+    height: 2px;
+    background-color: black;
+    box-shadow: 0 4px 0 black, 0 8px 0 black;
+}
+
+.icon-text {
+    color: white;
+    text-align: center;
+    text-shadow: 1px 1px 1px black;
+
+    @media (max-width: $mobile) {
+        font-size: 10px;
+    }
+}
+
+/* Window Styles */
+.window {
+    position: absolute;
+    top: 50px;
+    left: 100px;
+    width: 400px;
+    background-color: $win98-window-bg;
+    border-top: 1px solid $win98-window-border;
+    border-left: 1px solid $win98-window-border;
+    border-right: 1px solid $win98-window-shadow;
+    border-bottom: 1px solid $win98-window-shadow;
+    box-shadow: 1px 1px 0 $win98-button-dark-shadow;
+    z-index: 10;
+
+    @media (max-width: $tablet) {
+        width: 90%;
+        max-width: 400px;
+    }
+
+    @media (max-width: $mobile) {
+        width: 95%;
+        top: 20px !important;
+        /* Override inline styles for small screens */
+        left: 2.5% !important;
+        /* Center on small screens */
+    }
+}
+
+.window-titlebar {
+    height: 18px;
+    background-color: $win98-title-bar;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2px 0 4px;
+    cursor: move;
+
+    @media (max-width: $mobile) {
+        padding: 0 1px 0 2px;
+    }
+}
+
+.window-title {
+    color: $win98-title-text;
+    font-weight: bold;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @media (max-width: $mobile) {
+        font-size: 10px;
+        max-width: 200px;
+    }
+}
+
+.window-controls {
+    display: flex;
+}
+
+.window-button {
+    width: 16px;
+    height: 14px;
+    margin-left: 2px;
+    background-color: $win98-button-face;
+    border-top: 1px solid $win98-button-highlight;
+    border-left: 1px solid $win98-button-highlight;
+    border-right: 1px solid $win98-button-shadow;
+    border-bottom: 1px solid $win98-button-shadow;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:active {
+        border-top: 1px solid $win98-button-shadow;
+        border-left: 1px solid $win98-button-shadow;
+        border-right: 1px solid $win98-button-highlight;
+        border-bottom: 1px solid $win98-button-highlight;
+    }
+
+    @media (max-width: $mobile) {
+        width: 14px;
+        height: 12px;
+        font-size: 9px;
+        margin-left: 1px;
+    }
+}
+
+.window-menubar {
+    height: 20px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid $win98-button-shadow;
+    overflow-x: auto;
+    /* Allow horizontal scrolling on small screens */
+
+    @media (max-width: $mobile) {
+        height: 18px;
+    }
+}
+
+.menu-item {
+    padding: 0 6px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+
+    &:hover {
+        background-color: $win98-title-bar;
+        color: $win98-title-text;
+    }
+
+    @media (max-width: $mobile) {
+        padding: 0 4px;
+        height: 16px;
+        font-size: 11px;
+    }
+}
+
+.window-content {
+    padding: 10px;
+    background-color: $win98-notepad-bg;
+    border: 1px solid $win98-window-shadow;
+    border-top-color: $win98-button-dark-shadow;
+    border-left-color: $win98-button-dark-shadow;
+    min-height: 200px;
+    overflow: auto;
+    /* Scrollable content */
+
+    @media (max-width: $mobile) {
+        padding: 8px;
+        min-height: 180px;
+        max-height: calc(100vh - 120px);
+    }
+}
+
+.notepad-content {
+    font-family: 'Courier New', Courier, monospace;
+
+    a {
+        color: blue;
+        text-decoration: underline;
+        word-break: break-all;
+        /* Ensure long links wrap */
+    }
+
+    p {
+        margin-bottom: 8px;
+
+        @media (max-width: $mobile) {
+            margin-bottom: 6px;
+            font-size: 11px;
+        }
+    }
+}
+
+/* Taskbar Styles - увеличенная высота */
+.taskbar {
+    height: 38px;
+    /* Увеличено с 28px до 38px */
+    background-color: $win98-window-bg;
+    border-top: 1px solid $win98-window-border;
+    display: flex;
+    align-items: center;
+    padding: 0 4px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+
+    @media (max-width: $mobile) {
+        height: 44px;
+        /* Увеличено на мобильных */
+        padding: 0 2px;
+    }
+}
+
+.start-button {
+    display: flex;
+    align-items: center;
+    height: 30px;
+    /* Увеличено */
+    padding: 0 8px;
+    background-color: $win98-button-face;
+    border-top: 1px solid $win98-button-highlight;
+    border-left: 1px solid $win98-button-highlight;
+    border-bottom: 1px solid $win98-button-shadow;
+    border-right: 1px solid $win98-button-shadow;
+    margin-right: 4px;
+    cursor: pointer;
+
+    &:active {
+        border-top: 1px solid $win98-button-shadow;
+        border-left: 1px solid $win98-button-shadow;
+        border-right: 1px solid $win98-button-highlight;
+        border-bottom: 1px solid $win98-button-highlight;
+    }
+
+    span {
+        font-size: 13px;
+        /* Увеличен размер шрифта */
+        font-weight: bold;
+    }
+
+    @media (max-width: $mobile) {
+        height: 36px;
+        /* Увеличено на мобильных */
+        padding: 0 6px;
+        margin-right: 3px;
+
+        span {
+            font-size: 14px;
+            /* Увеличен размер шрифта на мобильных */
+        }
+    }
+}
+
+/* Создание логотипа Windows через CSS */
+.start-logo {
+    width: 18px;
+    height: 18px;
+    margin-right: 6px;
+    background-color: #ff0000;
+    position: relative;
+    display: grid;
+    grid-template: repeat(2, 1fr) / repeat(2, 1fr);
+
+    @media (max-width: $mobile) {
+        width: 22px;
+        height: 22px;
+        margin-right: 4px;
+    }
+}
+
+.start-logo::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    z-index: -1;
+}
+
+.start-logo>div {
+    background-color: #00ff00;
+}
+
+.start-logo>div:nth-child(1) {
+    background-color: #ff0000;
+}
+
+.start-logo>div:nth-child(2) {
+    background-color: #00ff00;
+}
+
+.start-logo>div:nth-child(3) {
+    background-color: #0000ff;
+}
+
+.start-logo>div:nth-child(4) {
+    background-color: #ffff00;
+}
+
+.taskbar-divider {
+    width: 1px;
+    height: 30px;
+    /* Увеличено */
+    background-color: $win98-button-shadow;
+    margin: 0 4px;
+
+    @media (max-width: $mobile) {
+        height: 36px;
+        /* Увеличено на мобильных */
+        margin: 0 3px;
+    }
+}
+
+.active-window-button {
+    height: 30px;
+    /* Увеличено */
+    min-width: 150px;
+    flex-grow: 1;
+    /* Takes available space */
+    background-color: $win98-button-face;
+    border-top: 1px solid $win98-button-shadow;
+    border-left: 1px solid $win98-button-shadow;
+    border-right: 1px solid $win98-button-highlight;
+    border-bottom: 1px solid $win98-button-highlight;
+    padding: 0 6px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 13px;
+    /* Увеличен размер шрифта */
+
+    @media (max-width: $tablet) {
+        min-width: 120px;
+    }
+
+    @media (max-width: $mobile) {
+        height: 36px;
+        /* Увеличено на мобильных */
+        min-width: 80px;
+        padding: 0 4px;
+        font-size: 14px;
+        /* Увеличен размер шрифта на мобильных */
+    }
+}
+
+.taskbar-tray {
+    margin-left: auto;
+    height: 30px;
+    /* Увеличено */
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    border-top: 1px solid $win98-button-shadow;
+    border-left: 1px solid $win98-button-shadow;
+    border-right: 1px solid $win98-button-highlight;
+    border-bottom: 1px solid $win98-button-highlight;
+    font-size: 13px;
+    /* Увеличен размер шрифта */
+
+    @media (max-width: $mobile) {
+        height: 36px;
+        /* Увеличено на мобильных */
+        padding: 0 6px;
+        font-size: 14px;
+        /* Увеличен размер шрифта на мобильных */
+    }
+}
+
+/* Adjust desktop padding to prevent content from being hidden behind taskbar */
+.desktop {
+    padding-bottom: 42px;
+    /* Увеличено для соответствия новой высоте taskbar */
+
+    @media (max-width: $mobile) {
+        padding-bottom: 48px;
+        /* Увеличено для соответствия новой высоте taskbar на мобильных */
+    }
+}
+
+/* Additional touch-friendly improvements for mobile */
+@media (max-width: $mobile) {
+
+    button,
+    .menu-item,
+    .window-button {
+        min-height: 16px;
+    }
+
+    .window-button {
+        width: 22px;
+        height: 20px;
+        font-size: 14px;
+    }
+}
+
+/* Fix for iOS Safari */
+@supports (-webkit-touch-callout: none) {
+    .desktop {
+        height: -webkit-fill-available;
+    }
+
+    body {
+        height: -webkit-fill-available;
+    }
+}

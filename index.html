@@ -1,41 +1,194 @@
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Egor Zheleznov</title>
-    <link rel="stylesheet" href="/assets/styles/index.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400&display=swap" rel="stylesheet">
+    <title>Windows 98 Desktop</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <main class="content">
-        <div class="content__wrapper">
-            <div class="content__wrapper__image">
-                <img src="/assets/0_7Q3yvSIv_t0ioJ-Z.gif" alt="programmer image">
-            </div>
-            <div class="content__wrapper__info">
-                <div class="content__wrapper__info__title">
-                    <h1>Egor Zheleznov</h1>
+    <div class="desktop">
+        <!-- Desktop icon for the info text file -->
+        <div class="desktop-icon" id="info-icon">
+            <div class="icon-img notepad-icon"></div>
+            <div class="icon-text">info.txt</div>
+        </div>
+
+        <!-- Notepad window with contact info - display: block by default -->
+        <div class="window" id="notepad-window" style="display: block;">
+            <div class="window-titlebar">
+                <div class="window-title">Info.txt - Notepad</div>
+                <div class="window-controls">
+                    <button class="window-button minimize">_</button>
+                    <button class="window-button maximize">□</button>
+                    <button class="window-button close">×</button>
                 </div>
-                <div class="content__wrapper__info__links">
-                    <div class="content__wrapper__info__links__item">
-                        <a class="hover-1" href="https://www.linkedin.com/in/egor-zheleznov-3166571a8/">LinkedIn</a>
-                    </div>
-                    <div class="content__wrapper__info__links__item">
-                        <a class="hover-1" href="https://www.upwork.com/freelancers/~013b75be00fcc4feee">Upwork profile</a>
-                    </div>
-                    <div class="content__wrapper__info__links__item">
-                        <a class="hover-1" href="https://github.com/zheleznoff">Github</a>
-                    </div>
-                    <div class="content__wrapper__info__links__item">
-                        <a class="hover-1" href="https://www.instagram.com/zheleznoff/">Instagram</a>
-                    </div>
+            </div>
+            <div class="window-menubar">
+                <div class="menu-item">File</div>
+                <div class="menu-item">Edit</div>
+                <div class="menu-item">Search</div>
+                <div class="menu-item">Help</div>
+            </div>
+            <div class="window-content notepad-content">
+                <div class="contact-info">
+                    <p>Egor Zheleznov - web developer</p>
+                    <p>My contact information:</p>
+                    <p>GitHub: <a href="https://github.com/zheleznoff" target="_blank">github</a></p>
+                    <p>Telegram: <a href="https://t.me/zheleznoffegor" target="_blank">@zheleznoffegor</a></p>
+                    <p>Email: zheleznoffegor@gmail.com</p>
                 </div>
             </div>
         </div>
+    </div>
 
-    </main>
+    <!-- Windows 98 Taskbar - fixed to bottom with flex, increased height -->
+    <div class="taskbar">
+        <button class="start-button">
+            <div class="start-logo">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <span>Start</span>
+        </button>
+        <div class="taskbar-divider"></div>
+        <div class="active-window-button">Info.txt - Notepad</div>
+        <div class="taskbar-tray">
+            <div class="tray-time" id="tray-time">12:00 PM</div>
+        </div>
+    </div>
+
+    <script>
+        // Update clock
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            document.getElementById('tray-time').textContent = `${hours}:${minutes} ${ampm}`;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Make the window draggable and respect screen boundaries
+        const notepadWindow = document.getElementById('notepad-window');
+        const titleBar = document.querySelector('.window-titlebar');
+
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        // Responsive positioning on page load
+        function positionWindowResponsively() {
+            const desktop = document.querySelector('.desktop');
+            const desktopRect = desktop.getBoundingClientRect();
+            const windowWidth = notepadWindow.offsetWidth;
+            const windowHeight = notepadWindow.offsetHeight;
+            const taskbarHeight = document.querySelector('.taskbar').offsetHeight;
+
+            // Center window on mobile or smaller screens
+            if (window.innerWidth < 768) {
+                const leftPos = Math.max(0, (desktopRect.width - windowWidth) / 2);
+                const topPos = Math.max(0, (desktopRect.height - windowHeight - taskbarHeight) / 2);
+                notepadWindow.style.left = leftPos + 'px';
+                notepadWindow.style.top = topPos + 'px';
+
+                // Resize window on very small screens
+                if (window.innerWidth < 480) {
+                    notepadWindow.style.width = Math.min(windowWidth, window.innerWidth - 20) + 'px';
+                }
+            }
+        }
+
+        // Position window responsively on load and resize
+        window.addEventListener('load', positionWindowResponsively);
+        window.addEventListener('resize', positionWindowResponsively);
+
+        titleBar.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            offsetX = e.clientX - notepadWindow.getBoundingClientRect().left;
+            offsetY = e.clientY - notepadWindow.getBoundingClientRect().top;
+        });
+
+        // Support touch events for mobile
+        titleBar.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            const touch = e.touches[0];
+            offsetX = touch.clientX - notepadWindow.getBoundingClientRect().left;
+            offsetY = touch.clientY - notepadWindow.getBoundingClientRect().top;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                moveWindow(e.clientX, e.clientY);
+            }
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (isDragging) {
+                const touch = e.touches[0];
+                moveWindow(touch.clientX, touch.clientY);
+                e.preventDefault(); // Prevent scrolling while dragging
+            }
+        });
+
+        function moveWindow(clientX, clientY) {
+            const desktop = document.querySelector('.desktop');
+            const desktopRect = desktop.getBoundingClientRect();
+            const taskbarHeight = document.querySelector('.taskbar').offsetHeight;
+
+            // Calculate new position
+            let newLeft = clientX - offsetX;
+            let newTop = clientY - offsetY;
+
+            // Constrain to desktop boundaries
+            newLeft = Math.max(0, Math.min(newLeft, desktopRect.width - notepadWindow.offsetWidth));
+            newTop = Math.max(0, Math.min(newTop, desktopRect.height - notepadWindow.offsetHeight - taskbarHeight));
+
+            notepadWindow.style.left = newLeft + 'px';
+            notepadWindow.style.top = newTop + 'px';
+        }
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        document.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+
+        // Double click on desktop icon to bring notepad to front
+        const infoIcon = document.getElementById('info-icon');
+        infoIcon.addEventListener('dblclick', () => {
+            notepadWindow.style.display = 'block';
+            positionWindowResponsively();
+        });
+
+        // Also support tap on mobile
+        let lastTap = 0;
+        infoIcon.addEventListener('touchend', (e) => {
+            const currentTime = new Date().getTime();
+            const tapLength = currentTime - lastTap;
+            if (tapLength < 500 && tapLength > 0) {
+                notepadWindow.style.display = 'block';
+                positionWindowResponsively();
+                e.preventDefault();
+            }
+            lastTap = currentTime;
+        });
+
+        // Close button functionality
+        const closeButton = document.querySelector('.window-button.close');
+        closeButton.addEventListener('click', () => {
+            notepadWindow.style.display = 'none';
+        });
+    </script>
 </body>
+
 </html>

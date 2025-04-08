@@ -265,7 +265,7 @@ body {
 
 .notepad-content {
     font-family: 'Courier New', Courier, monospace;
-
+    user-select: text;
     a {
         color: blue;
         text-decoration: underline;
